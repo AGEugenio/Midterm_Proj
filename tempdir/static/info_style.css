@@ -1,0 +1,110 @@
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    color: #006400;
+    letter-spacing: 3px;
+    font-size:50px;
+    text-shadow: 2px 4px black;
+    border-bottom-style: groove;
+    border-bottom-color: #006400;
+    border-bottom-width: 7px;
+    margin-top:20px;   
+}
+
+p{
+    font-family: "Verdana";
+    font-size:20px;
+    letter-spacing: 1px;
+}
+
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+    background-color:#194d30;
+    color:white;
+    height: 55px;
+    font-size:18px;
+    letter-spacing: 1px;
+  }
+.navbar-inverse .navbar-brand {
+    font-size:17px;
+    color:white;
+    
+  }
+  
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: black;
+    background-color: #b8dc6f;
+    border-bottom-color: black;
+    border-bottom-style: solid;
+    border-width: 2px;
+    font-weight:bold;
+  } 
+.active{
+    background-color:#66cc92;
+}	  
+  /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {height: 450px}
+
+  /* Set  background color and 100% height */
+.sidenav {
+    padding-top: 20px;
+    background-color:  #b8dc6f;
+    height: 200%;
+    
+  }
+  
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+.sidenav {
+      height: auto;
+      padding: 15px;
+
+    }
+.row.content {height:auto;} 
+  }
+  
+.container-fluid{
+   top: 20%;
+   box-sizing: border-box;
+   align-items: center;
+   justify-content: center;   
+}
+
+.col-sm-8{ 
+    align-items: center;
+    justify-content: center;
+    vertical-align: baseline;
+    text-align: center;
+    padding:30px 50px;
+    height: 200%;
+
+}
+  
+  
+.card{ 
+
+    margin-top:20px;
+    background-color:  white;
+    padding: 30px 90px;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0px 10px 16px 0px rgba(0,0,0,0.2);
+ 
+}
+.card-header{ 
+    text-align:left; 
+    font-family: "Verdana";
+    font-size:20px;}
+
+.card-body{
+    text-align:left; 
+    font-family: "Verdana";
+    font-size:18px;
+    letter-spacing: 1px;
+    
+   
+}
+

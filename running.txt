@@ -1,0 +1,4 @@
+CONTAINER ID   IMAGE        COMMAND                  CREATED              STATUS                      PORTS                                       NAMES
+d1caadaf9fb2   coconutapp   "/bin/sh -c 'python3…"   About a minute ago   Up About a minute           0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   coconutapprunning
+bce46f79df6c   designapp    "/bin/sh -c 'python3…"   40 hours ago         Exited (137) 34 hours ago                                               designapprunning
+7d9d92b1a8ba   sampleapp    "/bin/sh -c 'python …"   13 days ago          Exited (255) 10 days ago    0.0.0.0:5050->5050/tcp, :::5050->5050/tcp   samplerunning

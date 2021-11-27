@@ -1,3 +1,4 @@
+from re import T
 from flask import Flask,request, render_template,redirect,url_for
 from flask_pymongo import pymongo
 
@@ -36,14 +37,17 @@ def login():
                                   username=username,
                                   password = password )
         else:
-            account= tuple(users_table.find({"username":username, "password":password}))
-            if account[0]['username'] == username and account[0]['password']==password:
+            account= tuple(users_table.find({"username":username, "password":password}).limit(1))
+            if account:
               print('success')
               return redirect(url_for('home'))
 
             else: 
               print("Failed")
-              return redirect(url_for('login'))
+              return render_template("login.html", 
+                                  error_message = 'Login Failed! Invalid Inputs!',
+                                  username=username,
+                                  password = password )
    
 
     
@@ -73,11 +77,20 @@ def register():
                                   username=username,
                                   password = password )
         else:
-            users_table.insert(new_account)
-            print("New Account Added!")
+            account= tuple(users_table.find({"username":username}).limit(1))
+            if account:
+                 print("Incomplete!")
+                 return render_template("reg.html", 
+                                  error_message = 'Registered Failed!Username Already Exist!',
+                                  first_name=first_name,
+                                  last_name=last_name,
+                                  username=username,
+                                  password = password )
+            else:
+                users_table.insert_one(new_account)
+                print("New Account Added!")
 
-       return render_template("reg.html", 
-                                  error_message = 'You are now Registered!',
+        return render_template("reg.html", success=True,
                                   first_name = first_name,
                                   last_name = last_name,
                                   username = username,

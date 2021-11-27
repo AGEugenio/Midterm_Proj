@@ -186,7 +186,10 @@ a:focus, a:hover {
     color:#002e17 !important;
     text-decoration: underline;
 }
-
+button:focus, a:hover {
+  color:#002e17 !important;
+  text-decoration: underline;
+}
 @media (max-width: 600px) {
     .main {
         border-radius: 0px;

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<html lang="en">
+<head>
+ <title>Coconut Maturity Checker</title>
+            
+	<!--Required meta tags -->
+	<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/static/login_style.css">
+ 
+
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+        </button>
+        <a class="navbar-brand"> <b> Coconut Maturity Checker </b></a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="{{ url_for('main')}}">Welcome</a></li>
+          <li><a href="project">Project</a></li>
+          <li><a href="about">About Us</a></li>
+          <li><a href="#">Coconut Data</a></li>
+          <li><a href="#">Maturity Classifier</a></li>
+        </ul>
+        
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="{{ url_for('login')}}"> <span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+        
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid text-center">  
+            {% if error_message != '' %}
+
+                <h4 class = "message"> {{ error_message | safe }}</h4>
+
+            {% endif %}
+    <div class="main">
+        <p class="sign" align="center">Sign in</p>
+        <form class="form1" method="POST">
+        <input class="un " type="text" align="center" placeholder="Username" id="username" name="username">
+        <input class="pass" type="password" align="center" placeholder="Password" id="password" name="password">
+        
+        <button type=text class="submit" align="center">Sign in</button>
+        <a class="register" align="center"href="{{ url_for('register')}}">Sign up</a>
+        <p class="forgot" align="center"><a href="#">Forgot Password?</p>
+ 
+            
+      </form>
+      </div>          
+    </div>
+     
+</body>
+
+</html>

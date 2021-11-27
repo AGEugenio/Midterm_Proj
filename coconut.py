@@ -1,12 +1,18 @@
-from flask import Flask
-from flask import request
-from flask import render_template, send_file
+from flask import Flask,request, render_template,redirect,url_for
+from flask_pymongo import pymongo
+
 coconut = Flask(__name__)
+client = pymongo.MongoClient("mongodb+srv://ageugenio:mongopass123@cluster0.5dynv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+db=client.get_database("users_db")
+users_table=db.users_table
 
 @coconut.route("/")
 def main():
     return render_template("index.html")
 
+@coconut.route("/home")
+def home():
+    return render_template("index2.html")
 
 @coconut.route("/project")
 def project():
@@ -16,6 +22,67 @@ def project():
 def about():
     return render_template("about.html")
 
+@coconut.route("/login", methods = ["GET", "POST"])
+def login():
+    if request.method =='GET':
+         return render_template("login.html")
+    if request.method =='POST': 
+        username = request.form['username']
+        password = request.form['password']
+        if username == '' or password =='':
+           print("Incomplete!")
+           return render_template("login.html", 
+                                  error_message = 'Login Failed! Please complete all fields!',
+                                  username=username,
+                                  password = password )
+        else:
+            account= tuple(users_table.find({"username":username, "password":password}))
+            if account[0]['username'] == username and account[0]['password']==password:
+              print('success')
+              return redirect(url_for('home'))
+
+            else: 
+              print("Failed")
+              return redirect(url_for('login'))
+   
+
+    
+@coconut.route("/register", methods = ["GET","POST"])
+def register():
+       if request.method =='GET':
+         return render_template("reg.html") 
+
+       if request.method == 'POST':
+        #get the inputs on the answered form
+        first_name= request.form['first_name']
+        last_name = request.form['last_name']
+        username = request.form['username']
+        password = request.form['password']
+        new_account ={
+            "first_name":first_name,
+            "last_name":last_name,
+            "username":username,
+            "password":password}
+
+        if first_name == '' or last_name == '' or username == '' or password =='':
+           print("Incomplete!")
+           return render_template("reg.html", 
+                                  error_message = 'Registered Failed! Please complete all fields!',
+                                  first_name=first_name,
+                                  last_name=last_name,
+                                  username=username,
+                                  password = password )
+        else:
+            users_table.insert(new_account)
+            print("New Account Added!")
+
+       return render_template("reg.html", 
+                                  error_message = 'You are now Registered!',
+                                  first_name = first_name,
+                                  last_name = last_name,
+                                  username = username,
+                                  password = password )
+
    
 if __name__ == "__main__":
-    coconut.run(host="0.0.0.0", port=8080)
+    coconut.run(host="0.0.0.0", port=5050)

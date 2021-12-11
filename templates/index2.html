@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="/static/style.css"/>
+  
 </head>
 <body>
 
@@ -35,7 +36,15 @@
     </div>
   </div>
 </nav>
-  
+{% with mesg = get_flashed_messages(with_categories=true) %}
+  {% if mesg %}
+    <ul class=flashes>
+      {% for mesg in mesg %}
+        <li class = "{{category}}"> {{mesg}}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <div class="container-fluid text-center">    
   <div class="row content">
     <div class="col-sm-2 sidenav">
@@ -57,8 +66,7 @@
   </div>
 </div>
 
-
-
 </body>
+
 </html>
 

@@ -1,11 +1,35 @@
 from re import T
-from flask import Flask,request, render_template,redirect,url_for
-from flask_pymongo import pymongo
+from flask import Flask,request, render_template,redirect,url_for,flash
+from flask_sqlalchemy import SQLAlchemy
 
+#create flask app object
 coconut = Flask(__name__)
-client = pymongo.MongoClient("mongodb+srv://ageugenio:mongopass123@cluster0.5dynv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-db=client.get_database("users_db")
-users_table=db.users_table
+
+#Configure Database
+coconut.config['SECRET_KEY'] = 'secretcoconutkey'
+coconut.config['SQLALCHEMY_DATABASE_URI']='sqlite:///UserRecords.sqlite'
+coconut.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
+
+#Initiate SQLAlchemy
+db = SQLAlchemy(coconut)
+
+
+# Create user model using SQLAlchemy
+class User(db.Model):
+
+    __tablename__ = 'usertable'
+
+    id = db.Column(db.Integer, primary_key=True)
+    first_name= db.Column(db.String(15))
+    last_name = db.Column(db.String(15))
+    username = db.Column(db.String(50), unique=True)
+    password = db.Column(db.String(256))
+
+    def __init__(self,first_name,last_name,username,password):
+        self.first_name=first_name
+        self.last_name=last_name
+        self.username=username
+        self.password=password
 
 @coconut.route("/")
 def main():
@@ -37,8 +61,9 @@ def login():
                                   username=username,
                                   password = password )
         else:
-            account= tuple(users_table.find({"username":username, "password":password}).limit(1))
+            account = User.query.filter_by(username= username, password = password).first()
             if account:
+              flash('You have successfully logged in.', username)
               print('success')
               return redirect(url_for('home'))
 
@@ -62,11 +87,7 @@ def register():
         last_name = request.form['last_name']
         username = request.form['username']
         password = request.form['password']
-        new_account ={
-            "first_name":first_name,
-            "last_name":last_name,
-            "username":username,
-            "password":password}
+        new_account =User(first_name,last_name,username,password)
 
         if first_name == '' or last_name == '' or username == '' or password =='':
            print("Incomplete!")
@@ -77,18 +98,20 @@ def register():
                                   username=username,
                                   password = password )
         else:
-            account= tuple(users_table.find({"username":username}).limit(1))
+            account = User.query.filter_by(username= username).first()
+
             if account:
                  print("Incomplete!")
                  return render_template("reg.html", 
-                                  error_message = 'Registered Failed!Username Already Exist!',
+                                  error_message = 'Registered Failed! Username Already Exist!',
                                   first_name=first_name,
                                   last_name=last_name,
                                   username=username,
                                   password = password )
             else:
-                users_table.insert_one(new_account)
-                print("New Account Added!")
+                 db.session.add(new_account)
+                 db.session.commit()
+                 print("New Account Added!")
 
         return render_template("reg.html", success=True,
                                   first_name = first_name,
@@ -98,4 +121,5 @@ def register():
 
    
 if __name__ == "__main__":
+    db.create_all()
     coconut.run(host="0.0.0.0", port=5050)

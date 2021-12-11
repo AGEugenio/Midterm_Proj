@@ -44,6 +44,10 @@
     </div>
   </nav>
   <div class="container-fluid text-center">  
+            {% for mesg in get_flashed_messages() %}
+              <h4 class = "message"> {{mesg}}</h4>
+            {% endfor %}
+
             {% if error_message != '' %}
 
                 <h4 class = "message"> {{ error_message | safe }}</h4>
@@ -56,11 +60,12 @@
         <input class="pass" type="password" align="center" placeholder="Password" id="password" name="password">
         
         <button type=text class="submit" align="center">Sign in</button>
+      </form>
         <a class="register" align="center"href="{{ url_for('register')}}">Sign up</a>
         <p class="forgot" align="center"><a href="#">Forgot Password?</p>
  
             
-      </form>
+      
       </div>          
     </div>
      

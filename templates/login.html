@@ -56,12 +56,17 @@
     <div class="main">
         <p class="sign" align="center">Sign in</p>
         <form class="form1" method="POST">
-        <input class="un " type="text" align="center" placeholder="Username" id="username" name="username">
-        <input class="pass" type="password" align="center" placeholder="Password" id="password" name="password">
-        
-        <button type=text class="submit" align="center">Sign in</button>
+        {{ form.hidden_tag() }}
+        <p>{{form.username.label}}<br>
+        {{form.username(size=32)}}<br>
+        </p>
+        <p>{{form.password.label}}<br>
+        {{form.password(size=32)}}<br>
+        </p>
+        <p>{{ form.submit() }}</p>
+        <a align="center"href="{{ url_for('register')}}">Sign up</a>
       </form>
-        <a class="register" align="center"href="{{ url_for('register')}}">Sign up</a>
+        
         <p class="forgot" align="center"><a href="#">Forgot Password?</p>
  
             
